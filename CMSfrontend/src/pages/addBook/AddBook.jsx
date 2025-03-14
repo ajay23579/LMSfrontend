@@ -1,27 +1,62 @@
 import React, { useState } from "react";
 import NavBar from "../../components/NavBar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
-  const [bookName, setBookName] = useState("");
-  const [bookPrice, setBookPrice] = useState("");
-  const [isbnNumber, setIsbnNumber] = useState(null);
-  const [authorName, setAuthorName] = useState("");
-  const [publishedAt, setPublishedAt] = useState("");
-  const [publication, setPublication] = useState("");
+  // const [bookName, setBookName] = useState("");
+  // const [bookPrice, setBookPrice] = useState("");
+  // const [isbnNumber, setIsbnNumber] = useState("");
+  // const [authorName, setAuthorName] = useState("");
+  // const [publishedAt, setPublishedAt] = useState("");
+  // const [publication, setPublication] = useState("");
+  // const [image, setImage] = useState(null);
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("bookName", bookName);
+  //   formData.append("bookPrice", bookPrice);
+  //   formData.append("authorName", authorName);
+  //   formData.append("isbnNumber", isbnNumber);
+  //   formData.append("publication", publication);
+  //   formData.append("publishedAt", publishedAt);
+  //   formData.append("image", image);
+  //   const response = await axios.post("http://localhost:3000/book", formData);
+  // };
+
+  const navigate = useNavigate();
+  const [data, setData] = useState({
+    bookName: "",
+    bookPrice: null,
+    authorName: "",
+    isbnNumber: "",
+    publishedAt: "",
+    publication: "",
+  });
   const [image, setImage] = useState(null);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
   const handleSubmit = async (e) => {
-    e.preventDefult();
+    e.preventDefault();
     const formData = new FormData();
-    formData.append("bookName", bookName);
-    formData.append("isbnNumber", isbnNumber);
-    formData.append("bookPrice", bookPrice);
-    formData.append("authorName", authorName);
-    formData.append("publishedAt", publishedAt);
-    formData.append("publication", publication);
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
     formData.append("image", image);
-    await axios.post("http://localhost:3000/book", formData);
+    const response = await axios.post("http://localhost:3000/book", formData);
+    if (response.status === 200) {
+      navigate("/");
+    } else {
+      alert("Something went Worng");
+    }
   };
 
   return (
@@ -55,9 +90,7 @@ const AddBook = () => {
                   id="bookName"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setBookName(e.target.value);
-                  }}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -76,9 +109,7 @@ const AddBook = () => {
                   id="authorName"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setAuthorName(e.target.value);
-                  }}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -97,9 +128,7 @@ const AddBook = () => {
                   id="isbnNumber"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setIsbnNumber(e.target.value);
-                  }}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -118,9 +147,7 @@ const AddBook = () => {
                   id="publishedAt"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setPublishedAt(e.target.value);
-                  }}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -139,9 +166,7 @@ const AddBook = () => {
                   id="bookPrice"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setBookPrice(e.target.value);
-                  }}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -160,9 +185,7 @@ const AddBook = () => {
                   id="publication"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setPublication(e.target.value);
-                  }}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -181,9 +204,7 @@ const AddBook = () => {
                   id="bookImage"
                   required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  onChange={(e) => {
-                    setImage(e.target.files[0]);
-                  }}
+                  onChange={(e) => setImage(e.target.files[0])}
                 />
               </div>
             </div>
