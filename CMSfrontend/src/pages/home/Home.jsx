@@ -20,12 +20,14 @@ const Home = () => {
 
   return (
     <>
+    <div className=" bg-gray-600 h-screen p-1">
       <NavBar />
       <div className="flex justify-evenly flex-wrap">
         {books.length > 0 &&
           books.map((book) => {
             return <Card book={book} />;
           })}
+      </div>
       </div>
     </>
   );
